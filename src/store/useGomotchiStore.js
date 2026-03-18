@@ -6,6 +6,7 @@ export const useGomotchiStore = create((set) => ({
   experience: 0,
   maxExperience: 100,
   gold: 500,
+  currentRoom: 'living', // 'living', 'bedroom', 'bathroom'
 
   // İhtiyaçlar (0-100 arası)
   stats: {
@@ -17,6 +18,18 @@ export const useGomotchiStore = create((set) => ({
   },
 
   // Eylemler
+  setRoom: (room) => set({ currentRoom: room }),
+
+  addGold: (amount) => set((state) => ({ 
+    gold: state.gold + amount,
+    experience: state.experience + Math.floor(amount / 2)
+  })),
+
+  wash: () => set((state) => ({
+    stats: { ...state.stats, hygiene: 100 },
+    experience: state.experience + 5
+  })),
+
   feed: (foodItem) => set((state) => {
     if (state.gold < foodItem.price) return state;
 
@@ -44,30 +57,17 @@ export const useGomotchiStore = create((set) => ({
   }),
 
   play: () => set((state) => {
+    // Basic play still exists but we'll use addGold for the mini-game
     const newHapp = Math.min(100, state.stats.happiness + 20);
     const newHunger = Math.max(0, state.stats.hunger - 10);
     const newEnergy = Math.max(0, state.stats.energy - 15);
-    const newXp = state.experience + 15;
-
-    let newLevel = state.level;
-    let newMaxXp = state.maxExperience;
-    let finalXp = newXp;
-
-    if (finalXp >= newMaxXp) {
-      newLevel++;
-      finalXp = finalXp - newMaxXp;
-      newMaxXp = Math.floor(newMaxXp * 1.5);
-    }
-
     return {
       stats: { ...state.stats, happiness: newHapp, hunger: newHunger, energy: newEnergy },
-      experience: finalXp,
-      level: newLevel,
-      maxExperience: newMaxXp,
     };
   }),
 
   sleep: () => set((state) => ({
-    stats: { ...state.stats, energy: 100 },
+    stats: { ...state.stats, energy: 100, hunger: Math.max(0, state.stats.hunger - 20) },
   })),
 }));
+

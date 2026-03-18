@@ -1,31 +1,43 @@
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useGomotchiStore } from '../src/store/useGomotchiStore';
 import FloatingRobot from '../src/components/FloatingRobot';
 import StatPanel from '../src/components/StatPanel';
 import InventoryList from '../src/components/InventoryList';
+import MiniGame from '../src/components/MiniGame';
 
 const { width } = Dimensions.get('window');
 
+const ROOMS: Record<string, { colors: [string, string, string]; title: string; icon: string }> = {
+  living: { colors: ['#0F172A', '#1E293B', '#0F172A'], title: 'SALON', icon: '🏠' },
+  bedroom: { colors: ['#1E1B4B', '#312E81', '#1E1B4B'], title: 'YATAK ODASI', icon: '😴' },
+  bathroom: { colors: ['#065F46', '#064E3B', '#065F46'], title: 'BANYO', icon: '🧼' },
+};
+
 export default function Dashboard() {
-  const { unitName, level, experience, maxExperience, gold, stats, play, sleep } = useGomotchiStore();
+  const { unitName, level, experience, maxExperience, gold, stats, currentRoom, setRoom, addGold, wash, sleep } = useGomotchiStore();
+  const [gameVisible, setGameVisible] = useState(false);
 
   const xpPercentage = (experience / maxExperience) * 100;
+  const roomConfig = ROOMS[currentRoom];
+
+  const handleFinishGame = (earnedGold: number) => {
+    addGold(earnedGold);
+    Alert.alert("OYUN BİTTİ!", `${earnedGold} 💰 kazandın!`);
+  };
+
 
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient
-        colors={['#0F172A', '#1E293B', '#0F172A']}
-        style={styles.background}
-      >
+      <LinearGradient colors={roomConfig.colors} style={styles.background}>
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-          {/* Header - XP & Gold Info */}
+          {/* Header */}
           <View style={styles.header}>
             <View>
               <Text style={styles.unitName}>{unitName}</Text>
-              <View style={styles.levelBadge}>
-                <Text style={styles.levelText}>SEVİYE {level}</Text>
+              <View style={styles.roomStatus}>
+                <Text style={styles.roomText}>{roomConfig.icon} {roomConfig.title}</Text>
               </View>
             </View>
             <View style={styles.goldContainer}>
@@ -33,19 +45,45 @@ export default function Dashboard() {
             </View>
           </View>
 
-          {/* XP Bar */}
-          <View style={styles.xpBarContainer}>
-            <View style={[styles.xpProgressBar, { width: `${xpPercentage}%` }]} />
-            <Text style={styles.xpText}>{experience} / {maxExperience} XP</Text>
+          {/* Level Info */}
+          <View style={styles.levelInfo}>
+            <Text style={styles.levelLabel}>SEVİYE {level}</Text>
+            <View style={styles.xpTrack}>
+              <View style={[styles.xpFill, { width: `${xpPercentage}%` }]} />
+            </View>
           </View>
 
-          {/* Hero Area - Pet Display */}
+          {/* Hero Area */}
           <View style={styles.heroContainer}>
-            <LinearGradient
-              colors={['rgba(255,255,255,0.05)', 'transparent']}
-              style={styles.heroCircle}
-            />
             <FloatingRobot robotSource={require('../src/assets/robot_3d.png')} />
+          </View>
+
+          {/* Room-Specific Actions */}
+          <View style={styles.mainActionBar}>
+            {currentRoom === 'living' && (
+              <TouchableOpacity style={styles.bigButton} onPress={() => setGameVisible(true)}>
+                <LinearGradient colors={['#7C3AED', '#4F46E5']} style={styles.btnGradient}>
+                  <Text style={styles.btnIcon}>🎮</Text>
+                  <Text style={styles.btnText}>OYUN OYNA</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            )}
+            {currentRoom === 'bedroom' && (
+              <TouchableOpacity style={styles.bigButton} onPress={sleep}>
+                <LinearGradient colors={['#1E40AF', '#1E3A8A']} style={styles.btnGradient}>
+                  <Text style={styles.btnIcon}>😴</Text>
+                  <Text style={styles.btnText}>UYU</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            )}
+            {currentRoom === 'bathroom' && (
+              <TouchableOpacity style={styles.bigButton} onPress={wash}>
+                <LinearGradient colors={['#059669', '#10B981']} style={styles.btnGradient}>
+                  <Text style={styles.btnIcon}>🧼</Text>
+                  <Text style={styles.btnText}>YIKAN</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            )}
           </View>
 
           {/* Stats Grid */}
@@ -56,170 +94,86 @@ export default function Dashboard() {
             <StatPanel title="HİJYEN" value={stats.hygiene} color="#00E5FF" icon="🧼" />
           </View>
 
-          {/* Quick Actions */}
-          <View style={styles.actionRow}>
-            <TouchableOpacity style={styles.actionButton} onPress={play}>
-              <LinearGradient colors={['#7C3AED', '#4F46E5']} style={styles.actionGradient}>
-                <Text style={styles.actionIcon}>🎮</Text>
-                <Text style={styles.actionText}>OYNA</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton} onPress={sleep}>
-              <LinearGradient colors={['#059669', '#10B981']} style={styles.actionGradient}>
-                <Text style={styles.actionIcon}>😴</Text>
-                <Text style={styles.actionText}>UYU</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-
-          {/* Market Section */}
-          <InventoryList />
-
-          {/* Footer Info */}
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>ANTIGRAVITY v2.2 PROTOCOL ACTIVE</Text>
-          </View>
+          {/* Market (Only in Living/Kitchen area style) */}
+          {currentRoom === 'living' && <InventoryList />}
         </ScrollView>
+
+        {/* Bottom Navigator */}
+        <View style={styles.navbar}>
+          <TouchableOpacity 
+            style={[styles.navItem, currentRoom === 'living' && styles.navActive]} 
+            onPress={() => setRoom('living')}
+          >
+            <Text style={styles.navIcon}>🏠</Text>
+            <Text style={styles.navText}>SALON</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.navItem, currentRoom === 'bedroom' && styles.navActive]} 
+            onPress={() => setRoom('bedroom')}
+          >
+            <Text style={styles.navIcon}>🛏️</Text>
+            <Text style={styles.navText}>ODA</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={[styles.navItem, currentRoom === 'bathroom' && styles.navActive]} 
+            onPress={() => setRoom('bathroom')}
+          >
+            <Text style={styles.navIcon}>🚿</Text>
+            <Text style={styles.navText}>BANYO</Text>
+          </TouchableOpacity>
+        </View>
+
+        <MiniGame 
+          visible={gameVisible} 
+          onClose={() => setGameVisible(false)} 
+          onFinish={handleFinishGame} 
+        />
       </LinearGradient>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#0F172A',
-  },
-  background: {
-    flex: 1,
-  },
-  scrollContent: {
-    padding: 20,
-    paddingBottom: 40,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  container: { flex: 1, backgroundColor: '#0F172A' },
+  background: { flex: 1 },
+  scrollContent: { padding: 20, paddingBottom: 100 },
+  header: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
+  unitName: { color: '#fff', fontSize: 20, fontWeight: '900' },
+  roomStatus: { marginTop: 4 },
+  roomText: { color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 'bold' },
+  goldContainer: { backgroundColor: 'rgba(255,215,0,0.1)', padding: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,215,0,0.4)' },
+  goldText: { color: '#FFD700', fontWeight: 'bold' },
+  levelInfo: { marginBottom: 20 },
+  levelLabel: { color: '#3B82F6', fontSize: 10, fontWeight: 'bold', marginBottom: 5 },
+  xpTrack: { height: 4, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 2 },
+  xpFill: { height: '100%', backgroundColor: '#3B82F6', borderRadius: 2 },
+  heroContainer: { height: 280, justifyContent: 'center' },
+  mainActionBar: { marginBottom: 25 },
+  bigButton: { height: 60, borderRadius: 15, overflow: 'hidden' },
+  btnGradient: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 },
+  btnIcon: { fontSize: 24 },
+  btnText: { color: '#fff', fontWeight: 'bold', letterSpacing: 1 },
+  statsGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: 20 },
+  navbar: { 
+    position: 'absolute', 
+    bottom: 0, 
+    left: 0, 
+    right: 0, 
+    height: 80, 
+    backgroundColor: 'rgba(15, 23, 42, 0.95)', 
+    flexDirection: 'row', 
+    justifyContent: 'space-around', 
     alignItems: 'center',
-    marginBottom: 15,
-  },
-  unitName: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: '900',
-    letterSpacing: 1.5,
-  },
-  levelBadge: {
-    backgroundColor: '#3B82F6',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    borderRadius: 6,
-    marginTop: 4,
-  },
-  levelText: {
-    color: '#fff',
-    fontSize: 10,
-    fontWeight: 'bold',
-  },
-  goldContainer: {
-    backgroundColor: 'rgba(255, 215, 0, 0.12)',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 215, 0, 0.4)',
-  },
-  goldText: {
-    color: '#FFD700',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  xpBarContainer: {
-    height: 6,
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderRadius: 3,
-    marginBottom: 25,
-    overflow: 'hidden',
-  },
-  xpProgressBar: {
-    height: '100%',
-    backgroundColor: '#3B82F6',
-  },
-  xpText: {
-    position: 'absolute',
-    right: 0,
-    top: 8,
-    color: 'rgba(255,255,255,0.35)',
-    fontSize: 9,
-    fontWeight: '600',
-  },
-  heroContainer: {
-    height: 320,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  heroCircle: {
-    position: 'absolute',
-    width: width * 0.7,
-    height: width * 0.7,
-    borderRadius: width * 0.35,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-  },
-  statsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  actionRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 20,
-    marginBottom: 25,
-  },
-  actionButton: {
-    flex: 1,
-    height: 70,
-    borderRadius: 20,
-    overflow: 'hidden',
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 8,
-  },
-  actionGradient: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-  },
-  actionIcon: {
-    fontSize: 22,
-  },
-  actionText: {
-    color: '#fff',
-    fontSize: 12,
-    fontWeight: 'bold',
-    letterSpacing: 1,
-  },
-  footer: {
-    marginTop: 30,
-    paddingTop: 15,
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.05)',
-    alignItems: 'center',
+    borderTopColor: 'rgba(255,255,255,0.1)',
+    paddingBottom: 20,
   },
-  footerText: {
-    color: 'rgba(255,255,255,0.2)',
-    fontSize: 9,
-    letterSpacing: 3,
-  },
+  navItem: { alignItems: 'center', opacity: 0.4 },
+  navActive: { opacity: 1 },
+  navIcon: { fontSize: 20, marginBottom: 4 },
+  navText: { color: '#fff', fontSize: 10, fontWeight: 'bold' },
 });
+
 
 
 
