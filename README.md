@@ -1,54 +1,74 @@
 # Gomotchi 🐾
 
-Bu proje, bir mobil oyun geliştirme yolculuğudur. Amacımız, kullanıcıların etkileşim kurabileceği eğlenceli ve modern bir dijital deneyim sunmaktır.
-
-## 🎯 PROJE HEDEFLERİ (Senaryo Seçenekleri)
-
-Aşağıdaki üç senaryodan biri üzerinden ilerleyerek oyunu şekillendireceğiz:
-
-1.  **Dijital Evcil Hayvan (Tamagotchi) 🐾**: İsim ve tür propları alan, açlık ve mutluluk durumlarını "Besle" ve "Oyna" butonlarıyla yöneten bir bileşen.
-2.  **Geliştirici Mood Takipçisi 🎭**: Emoji ve etiket propları olan butonlar aracılığıyla, ana ekrandaki aktif modu güncelleyen bir arayüz.
-3.  **Yazılımcı Kimlik Kartı 🪪**: Ad, uzmanlık ve seviye bilgilerini gösteren, "İşe Al" butonuna basıldığında durumu güncelleyen bir profil kartı.
+**Gomotchi**, modern bir arayüz ve etkileşimli oyun mekanikleriyle tasarlanmış, hibrit bir dijital arkadaşlık ve performans takip uygulamasıdır. Hem bir evcil hayvan besleme simülasyonu hem de bir geliştirici verimlilik aracı olarak hizmet veren bu proje, React Native ve Expo ekosisteminin gücünü kullanır.
 
 ---
 
-## ⚠️ OYUNUN KURALLARI VE ADIMLAR
+## 🚀 ÖZELLİKLER
 
-Geliştirme süreci iki ana adımdan oluşur:
+Gomotchi, kullanıcı deneyimini merkeze alan üç temel modül ile birlikte gelir:
 
-### ADIM 1: Elleri Kirletin (Delegasyon Yasak!) 🛠️
-AI araçlarına "Bana sıfırdan şu uygulamayı yaz" demek kesinlikle yasaktır. Component iskeletini, state ve prop yapılarını önce elle kodlayacağız.
+1.  **Dijital Evcil Hayvan (Tamagotchi) 🐾**
+    *   Dinamik açlık ve mutluluk seviyeleri.
+    *   "Besle" ve "Oyna" komutlarıyla anlık durum güncellemeleri.
+    *   Duruma göre değişen görsel ve işitsel geri bildirimler.
 
-### ADIM 2: AI Copilot Devrede (İterasyon ve İyileştirme) 🚀
-Kendi yazdığınız iskelet kodu AI'a vererek aşağıdaki iyileştirmeleri isteyeceğiz:
-- Flexbox ile modern bir düzen ve modern arayüz tasarımı.
-- Dinamik emojiler ve arka plan renkleri.
-- "Clean Code" prensiplerine göre refactor işlemleri.
+2.  **Geliştirici Mood Takipçisi 🎭**
+    *   Emoji tabanlı hızlı durum bildirimleri.
+    *   Günlük ruh hali analizi ve arayüz özelleştirmeleri.
+    *   Geliştirici odaklı etiketleme sistemi.
 
----
-
-## 📱 UYGULAMA VE DEMO
-
-Geliştirme tamamlandığında aşağıdaki linkler aktif olacaktır:
-
-- **📥 APK İndir:** [Gomotchi-v1.0.apk (Yakında)](https://example.com/download)
-- **📺 YouTube Tanıtım:** [Gomotchi Demo Videosu (Yakında)](https://youtube.com/example)
+3.  **Yazılımcı Kimlik Kartı (DevID) 🪪**
+    *   Yetenek ve uzmanlık seviyesi göstergeleri.
+    *   "İşe Al" butonu ile dinamik "Müsaitlik" durumu yönetimi.
+    *   Profesyonel profil kartı tasarımı.
 
 ---
 
-## 🛠️ GELİŞTİRME
+## 📥 İNDİRME VE DEMO
 
-Bu proje [Expo](https://expo.dev) kullanılarak geliştirilmiştir.
+Uygulamanın en güncel sürümünü aşağıdan indirebilir veya tanıtım videosunu izleyebilirsiniz.
 
-### Başlangıç:
+*   **📦 Android Sürümü:** [Gomotchi-v1.2.0.apk](https://github.com/ParzivalSANN/Gomotchi/releases/download/v1.2.0/Gomotchi.apk)
+*   **🎥 Demo Videosu:** [Gomotchi - Resmi Tanıtım (4K Edit)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+*   **💻 Web Önizleme:** [gomotchi-preview.web.app](https://example.com/preview)
 
-1. Bağımlılıkları yükleyin:
-   ```bash
-   npm install
-   ```
+---
 
-2. Uygulamayı başlatın:
-   ```bash
-   npx expo start
-   ```
+## 🛠️ TEKNİK STACK
+
+*   **Framework:** [React Native](https://reactnative.dev/) + [Expo](https://expo.dev/)
+*   **State Management:** React Context API & Hooks
+*   **Styling:** Modern StyleSheet Architecture & Flexbox Layout
+*   **Routing:** Expo Router (File-based)
+
+---
+
+## 🏗️ KURULUM VE BAŞLATMA
+
+Projeyi yerel ortamınızda çalıştırmak için aşağıdaki adımları izleyin:
+
+1.  **Bağımlılıkları Yükleyin:**
+    ```bash
+    npm install
+    ```
+
+2.  **Uygulamayı Başlatın:**
+    ```bash
+    npx expo start
+    ```
+
+3.  **Test Edin:**
+    Expo Go uygulamasını cihazınıza indirin ve ekrandaki QR kodu taratın.
+
+---
+
+## 🤝 KATKIDA BULUNMA
+
+Projeyi profesyonel standartlarda tutmak için geliştirme sürecimizde **Clean Code** prensiplerini ve modern UI/UX yaklaşımlarını benimsiyoruz. Her türlü geri bildirim ve katkıya açığız!
+
+---
+
+© 2026 Gomotchi Team - Tüm Hakları Saklıdır.
+
 
