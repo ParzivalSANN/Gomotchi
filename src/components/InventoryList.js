@@ -14,10 +14,7 @@ const InventoryList = () => {
       disabled={gold < item.price}
     >
       <Text style={styles.itemIcon}>{item.icon}</Text>
-      <View style={styles.itemInfo}>
-        <Text style={styles.itemName}>{item.name}</Text>
-        <Text style={styles.itemEffect}>+{item.hungerValue} Açlık</Text>
-      </View>
+      <Text style={styles.itemName}>{item.name}</Text>
       <View style={styles.priceTag}>
         <Text style={styles.priceText}>{item.price} 💰</Text>
       </View>
@@ -26,12 +23,14 @@ const InventoryList = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>ENVANTER & MARKET</Text>
+      <Text style={styles.title}>MARKET & ENVANTER</Text>
       <FlatList
         data={foodItems}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.listContent}
       />
     </View>
   );
@@ -39,57 +38,56 @@ const InventoryList = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: 10,
+    paddingVertical: 10,
   },
   title: {
     color: '#00E5FF',
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
-    marginBottom: 15,
-    letterSpacing: 2,
+    marginBottom: 10,
+    letterSpacing: 1.5,
+    paddingLeft: 20,
+  },
+  listContent: {
+    paddingLeft: 20,
+    paddingRight: 10,
   },
   itemCard: {
-    flexDirection: 'row',
+    width: 100,
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.05)',
+    backgroundColor: 'rgba(255,255,255,0.06)',
     padding: 12,
-    borderRadius: 12,
-    marginBottom: 10,
+    borderRadius: 16,
+    marginRight: 12,
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.1)',
   },
   disabledItem: {
-    opacity: 0.4,
+    opacity: 0.3,
   },
   itemIcon: {
-    fontSize: 24,
-    marginRight: 12,
-  },
-  itemInfo: {
-    flex: 1,
+    fontSize: 32,
+    marginBottom: 8,
   },
   itemName: {
     color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  itemEffect: {
-    color: '#4CAF50',
     fontSize: 11,
-    marginTop: 2,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 6,
   },
   priceTag: {
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 8,
   },
   priceText: {
     color: '#FFD700',
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
   },
 });
+
 
 export default InventoryList;

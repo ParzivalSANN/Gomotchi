@@ -6,7 +6,7 @@ const StatPanel = ({ title, value, color, icon }) => {
   return (
     <View style={styles.panelShadow}>
       <LinearGradient
-        colors={['rgba(255, 255, 255, 0.15)', 'rgba(255, 255, 255, 0.05)']}
+        colors={['rgba(255, 255, 255, 0.12)', 'rgba(255, 255, 255, 0.05)']}
         style={styles.panelGradient}
       >
         <View style={styles.header}>
@@ -25,51 +25,52 @@ const StatPanel = ({ title, value, color, icon }) => {
 const styles = StyleSheet.create({
   panelShadow: {
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 8,
-    borderRadius: 15,
-    marginBottom: 15,
-    width: '100%',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 4,
+    borderRadius: 12,
+    marginBottom: 10,
+    width: '48%', // For a 2-column grid
   },
   panelGradient: {
-    padding: 15,
-    borderRadius: 15,
+    padding: 10,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 6,
   },
   icon: {
-    fontSize: 18,
-    marginRight: 8,
+    fontSize: 14,
+    marginRight: 6,
   },
   panelTitle: {
     color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-    letterSpacing: 0.5,
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.2,
   },
   progressContainer: {
-    height: 8,
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius: 4,
+    height: 6,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderRadius: 3,
     overflow: 'hidden',
   },
   progressBar: {
     height: '100%',
-    borderRadius: 4,
+    borderRadius: 3,
   },
   valueText: {
-    color: 'rgba(255,255,255,0.6)',
-    fontSize: 12,
-    marginTop: 5,
+    color: 'rgba(255,255,255,0.5)',
+    fontSize: 10,
+    marginTop: 4,
     textAlign: 'right',
   },
 });
+
 
 export default StatPanel;
