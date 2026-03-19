@@ -1,74 +1,75 @@
-# Gomotchi 🐾
+# Gomotchi v3.3: Antigravity - Clay Edition 🐾🤖
 
-**Gomotchi**, modern bir arayüz ve etkileşimli oyun mekanikleriyle tasarlanmış, hibrit bir dijital arkadaşlık ve performans takip uygulamasıdır. Hem bir evcil hayvan besleme simülasyonu hem de bir geliştirici verimlilik aracı olarak hizmet veren bu proje, React Native ve Expo ekosisteminin gücünü kullanır.
+**Gomotchi**, dijital evcil hayvan deneyimini modern 3D Claymorphism estetiği ve gelişmiş oyun mekanikleriyle yeniden tanımlayan, hibrit bir mobil ekosistemdir. React Native ve Expo üzerine inşa edilen bu proje, kullanıcı etkileşimini merkeze alan dinamik bir dünya sunar.
+
+![Gomotchi Header](https://via.placeholder.com/1000x400?text=Gomotchi+Antigravity+Edition)
 
 ---
 
-## 🚀 ÖZELLİKLER
+## 🌟 ÖNE ÇIKAN ÖZELLİKLER (v3.3)
 
-Gomotchi, kullanıcı deneyimini merkeze alan üç temel modül ile birlikte gelir:
+Gomotchi v3.3, görsel sadelikle teknik derinliği birleştiren 5 ana modül üzerine kuruludur:
 
-1.  **Dijital Evcil Hayvan (Tamagotchi) 🐾**
-    *   Dinamik açlık ve mutluluk seviyeleri.
-    *   "Besle" ve "Oyna" komutlarıyla anlık durum güncellemeleri.
-    *   Duruma göre değişen görsel ve işitsel geri bildirimler.
+### 1. 🎨 %100 Claymorphism UI & Room Sistemi
+*   **3D Görsel Dil:** Tamamı tutarlı 3D Clay stilinde tasarlanmış 4 ana oda (Salon, Mutfak, Yatak Odası, Banyo).
+*   **Dinamik Arka Planlar:** Her odaya özel, derinlik hissi veren yüksek çözünürlüklü 3D sahneler.
+*   **Haptik Arayüz:** Dokunsallık hissi veren yumuşak gölgeler, cam dokulu (glassmorphism) HUD ve interaktif butonlar.
 
-2.  **Geliştirici Mood Takipçisi 🎭**
-    *   Emoji tabanlı hızlı durum bildirimleri.
-    *   Günlük ruh hali analizi ve arayüz özelleştirmeleri.
-    *   Geliştirici odaklı etiketleme sistemi.
+### 2. ⏳ Gelişmiş Yaşam Döngüsü & State Machine
+*   **Unix Epoch Real-time Decay:** Evcil hayvanınızın ihtiyaçları (Açlık, Mutluluk, Enerji, Hijyen) siz uygulamada olmasanız bile gerçek zamanlı olarak azalır.
+*   **Gelişim Evreleri (Life Stages):** 
+    - **Baby** (Seviye 1-3)
+    - **Toddler** (Seviye 4-9)
+    - **Kid** (Seviye 10-20)
+    - **Student** (Seviye 21+)
+*   **Kişiselleştirilmiş Onboarding:** İlk girişte robotunuza isim verme ve kendi yaşınızı belirleme süreçlerini içeren profesyonel başlangıç akışı.
 
-3.  **Yazılımcı Kimlik Kartı (DevID) 🪪**
-    *   Yetenek ve uzmanlık seviyesi göstergeleri.
-    *   "İşe Al" butonu ile dinamik "Müsaitlik" durumu yönetimi.
-    *   Profesyonel profil kartı tasarımı.
+### 3. 🎙️ Sesli Etkileşim & AI Tekrar Motoru
+*   **Pitch-Shifting DSP:** Sizin sesinizi kaydedip 1.5x - 2.0x hızında "robotik/sevimli" bir tona çevirerek tekrar eden ses motoru.
+*   **Görsel Dudak Senkronizasyonu (Lip-Sync):** Sesin genliğine (RMS) göre robotun ağız ve yüz hareketlerinin dinamik olarak değişmesi.
+*   **Noise Gate Control:** -40dB altındaki gürültüleri filtreleyen ve sessizlikte kaydı otomatik durduran akıllı buffer sistemi.
+
+### 4. 🎮 Mini-Oyun Ekosistemi
+Eğlenirken altın kazanabileceğiniz 4 farklı oyun modu:
+*   🍰 **Cake Tower:** Hassas zamanlama ve fizik tabanlı geometrik dilimleme oyunu.
+*   🔨 **Whack-A-Mouse:** 4 kadranlı, hızlanan ve 12 vuruşluk "Mecha-Boss" içeren refleks oyunu.
+*   🚀 **Planet Hop:** Gezegenler arası zıplama ve hayatta kalma mekaniği.
+*   🧱 **Brick Blast:** Klasik tuğla kırma mekaniğinin 3D modernize edilmiş hali.
+
+### 5. 💰 Ekonomi & Ödül Sistemi (Gacha)
+*   **Çift Para Birimi:** Altın (Soft) ve Elmas (Hard) ekonomisi.
+*   **Şans Çarkı (Daily Reward):** Fizik ve animasyon tabanlı, ağırlıklı olasılık sistemine sahip günlük hediye çarkı.
+*   **Mutfak Marketi:** Robotunuzu beslemek için alabileceğiniz Pizza, Karpuz, Taco gibi özel yiyecekler.
 
 ---
 
 ## 📥 İNDİRME VE DEMO
 
-Uygulamanın en güncel sürümünü aşağıdan indirebilir veya tanıtım videosunu izleyebilirsiniz.
-
-*   **📦 Android Sürümü:** [Gomotchi-v1.2.0.apk](https://github.com/ParzivalSANN/Gomotchi/releases/download/v1.2.0/Gomotchi.apk)
+*   **📦 Android Sürümü:** [Gomotchi-v3.3.0.apk](https://github.com/ParzivalSANN/Gomotchi/releases)
 *   **🎥 Demo Videosu:** [Gomotchi - Resmi Tanıtım (4K Edit)](https://youtu.be/BSDqoXTDnI0)
-*   **💻 Web Önizleme:** [gomotchi-preview.web.app](https://example.com/preview)
 
 ---
 
 ## 🛠️ TEKNİK STACK
 
-*   **Framework:** [React Native](https://reactnative.dev/) + [Expo](https://expo.dev/)
-*   **State Management:** React Context API & Hooks
-*   **Styling:** Modern StyleSheet Architecture & Flexbox Layout
-*   **Routing:** Expo Router (File-based)
+*   **Core:** [React Native](https://reactnative.dev/) & [Expo](https://expo.dev/)
+*   **State Management:** `Zustand` (Performans odaklı ve kalıcı state)
+*   **Animations:** `React Native Reanimated` & `Animated API`
+*   **Audio DSP:** `expo-av` 
+*   **Styling:** Custom Claymorphism Architecture 
 
 ---
 
-## 🏗️ KURULUM VE BAŞLATMA
+## 🏗️ KURULUM
 
-Projeyi yerel ortamınızda çalıştırmak için aşağıdaki adımları izleyin:
+```bash
+# Bağımlılıkları yükleyin
+npm install
 
-1.  **Bağımlılıkları Yükleyin:**
-    ```bash
-    npm install
-    ```
-
-2.  **Uygulamayı Başlatın:**
-    ```bash
-    npx expo start
-    ```
-
-3.  **Test Edin:**
-    Expo Go uygulamasını cihazınıza indirin ve ekrandaki QR kodu taratın.
+# Uygulamayı başlatın
+npx expo start
+```
 
 ---
 
-## 🤝 KATKIDA BULUNMA
-
-Projeyi profesyonel standartlarda tutmak için geliştirme sürecimizde **Clean Code** prensiplerini ve modern UI/UX yaklaşımlarını benimsiyoruz. Her türlü geri bildirim ve katkıya açığız!
-
----
-
-© 2026 Gomotchi Team - Tüm Hakları Saklıdır.
-
-
+© 2026 Gomotchi Team - Proje, **Advanced Agentic Coding** standartlarında geliştirilmiştir.
