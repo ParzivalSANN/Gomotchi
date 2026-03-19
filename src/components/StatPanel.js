@@ -1,76 +1,87 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { CLAY_COLORS } from '../styles/ClayStyles';
 
 const StatPanel = ({ title, value, color, icon }) => {
   return (
-    <View style={styles.panelShadow}>
-      <LinearGradient
-        colors={['rgba(255, 255, 255, 0.12)', 'rgba(255, 255, 255, 0.05)']}
-        style={styles.panelGradient}
-      >
-        <View style={styles.header}>
+    <View style={styles.clayCard}>
+      <View style={styles.header}>
+        <View style={styles.iconCircle}>
           <Text style={styles.icon}>{icon}</Text>
-          <Text style={styles.panelTitle}>{title}</Text>
         </View>
-        <View style={styles.progressContainer}>
-          <View style={[styles.progressBar, { width: `${value}%`, backgroundColor: color }]} />
-        </View>
-        <Text style={styles.valueText}>{value}%</Text>
-      </LinearGradient>
+        <Text style={styles.panelTitle}>{title}</Text>
+      </View>
+      <View style={styles.progressContainer}>
+        <View style={[styles.progressBar, { width: `${value}%`, backgroundColor: color }]} />
+      </View>
+      <Text style={styles.valueText}>{Math.floor(value)}%</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  panelShadow: {
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 4,
-    borderRadius: 12,
-    marginBottom: 10,
-    width: '48%', // For a 2-column grid
-  },
-  panelGradient: {
-    padding: 10,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+  clayCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 12,
+    width: '48%',
+    marginBottom: 15,
+    // Clay Shadow
+    shadowColor: 'rgba(0,0,0,0.1)',
+    shadowOffset: { width: 3, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    elevation: 5,
+    borderTopWidth: 2,
+    borderLeftWidth: 2,
+    borderTopColor: 'rgba(255,255,255,0.6)',
+    borderLeftColor: 'rgba(255,255,255,0.6)',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 6,
+    marginBottom: 10,
+  },
+  iconCircle: {
+    backgroundColor: '#F1F5F9',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
   },
   icon: {
-    fontSize: 14,
-    marginRight: 6,
+    fontSize: 12,
   },
   panelTitle: {
-    color: '#fff',
+    color: '#475569',
     fontSize: 11,
-    fontWeight: '700',
-    letterSpacing: 0.2,
+    fontWeight: '900',
+    letterSpacing: 0.5,
   },
   progressContainer: {
-    height: 6,
-    backgroundColor: 'rgba(255,255,255,0.08)',
-    borderRadius: 3,
+    height: 12,
+    backgroundColor: '#F1F5F9',
+    borderRadius: 6,
     overflow: 'hidden',
+    borderTopWidth: 1.5,
+    borderTopColor: 'rgba(0,0,0,0.05)',
   },
   progressBar: {
     height: '100%',
-    borderRadius: 3,
+    borderRadius: 5,
+    // Inner shadow on bar
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.3)',
   },
   valueText: {
-    color: 'rgba(255,255,255,0.5)',
+    color: '#64748B',
     fontSize: 10,
-    marginTop: 4,
+    fontWeight: 'bold',
+    marginTop: 6,
     textAlign: 'right',
   },
 });
-
 
 export default StatPanel;

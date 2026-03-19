@@ -30,7 +30,7 @@ Gomotchi, kullanıcı deneyimini merkeze alan üç temel modül ile birlikte gel
 Uygulamanın en güncel sürümünü aşağıdan indirebilir veya tanıtım videosunu izleyebilirsiniz.
 
 *   **📦 Android Sürümü:** [Gomotchi-v1.2.0.apk](https://github.com/ParzivalSANN/Gomotchi/releases/download/v1.2.0/Gomotchi.apk)
-*   **🎥 Demo Videosu:** [Gomotchi - Resmi Tanıtım (4K Edit)](https://www.youtube.com/watch?v=dQw4w9WgXc)
+*   **🎥 Demo Videosu:** [Gomotchi - Resmi Tanıtım (4K Edit)](https://youtu.be/BSDqoXTDnI0)
 *   **💻 Web Önizleme:** [gomotchi-preview.web.app](https://example.com/preview)
 
 ---

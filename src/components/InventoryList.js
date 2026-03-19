@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useGomotchiStore } from '../store/useGomotchiStore';
 import { foodItems } from '../assets/items';
+import { CLAY_COLORS, ClayStyles } from '../styles/ClayStyles';
 
 const InventoryList = () => {
   const feed = useGomotchiStore((state) => state.feed);
@@ -9,21 +10,24 @@ const InventoryList = () => {
 
   const renderItem = ({ item }) => (
     <TouchableOpacity 
-      style={[styles.itemCard, gold < item.price && styles.disabledItem]}
+      style={[styles.clayItemCard, gold < item.price && styles.disabledItem]}
       onPress={() => feed(item)}
       disabled={gold < item.price}
     >
-      <Text style={styles.itemIcon}>{item.icon}</Text>
+      <View style={styles.iconCircle}>
+        <Text style={styles.itemIcon}>{item.icon}</Text>
+      </View>
       <Text style={styles.itemName}>{item.name}</Text>
-      <View style={styles.priceTag}>
-        <Text style={styles.priceText}>{item.price} 💰</Text>
+      <View style={[styles.priceTag, { backgroundColor: gold >= item.price ? '#FEF3C7' : '#F1F5F9' }]}>
+        <Text style={[styles.priceText, { color: gold >= item.price ? '#D97706' : '#94A3B8' }]}>
+          {item.price} 💰
+        </Text>
       </View>
     </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>MARKET & ENVANTER</Text>
       <FlatList
         data={foodItems}
         keyExtractor={(item) => item.id}
@@ -40,54 +44,61 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: 10,
   },
-  title: {
-    color: '#00E5FF',
-    fontSize: 10,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    letterSpacing: 1.5,
-    paddingLeft: 20,
-  },
   listContent: {
     paddingLeft: 20,
     paddingRight: 10,
+    paddingVertical: 10,
   },
-  itemCard: {
-    width: 100,
+  clayItemCard: {
+    width: 110,
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    padding: 12,
-    borderRadius: 16,
-    marginRight: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: '#FFFFFF',
+    padding: 15,
+    borderRadius: 25,
+    marginRight: 15,
+    // Clay Shadow
+    shadowColor: 'rgba(0,0,0,0.1)',
+    shadowOffset: { width: 3, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 6,
+    elevation: 5,
+    borderTopWidth: 2,
+    borderLeftWidth: 2,
+    borderTopColor: 'rgba(255,255,255,0.7)',
+    borderLeftColor: 'rgba(255,255,255,0.7)',
   },
   disabledItem: {
-    opacity: 0.3,
+    opacity: 0.5,
   },
-  itemIcon: {
-    fontSize: 32,
+  iconCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#F8FAFC',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 8,
   },
+  itemIcon: {
+    fontSize: 28,
+  },
   itemName: {
-    color: '#fff',
-    fontSize: 11,
-    fontWeight: '600',
+    color: '#334155',
+    fontSize: 10,
+    fontWeight: '900',
     textAlign: 'center',
-    marginBottom: 6,
+    marginBottom: 8,
+    height: 25,
   },
   priceTag: {
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
   priceText: {
-    color: '#FFD700',
     fontSize: 10,
-    fontWeight: 'bold',
+    fontWeight: '900',
   },
 });
-
 
 export default InventoryList;

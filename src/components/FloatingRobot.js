@@ -3,27 +3,26 @@ import { Animated, StyleSheet, View, Image } from 'react-native';
 
 const FloatingRobot = ({ robotSource }) => {
   const translateY = useRef(new Animated.Value(0)).current;
+  const scale = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     Animated.loop(
-      Animated.sequence([
-        Animated.timing(translateY, {
-          toValue: -20,
-          duration: 2500,
-          useNativeDriver: true,
-        }),
-        Animated.timing(translateY, {
-          toValue: 0,
-          duration: 2500,
-          useNativeDriver: true,
-        }),
+      Animated.parallel([
+        Animated.sequence([
+          Animated.timing(translateY, { toValue: -15, duration: 2000, useNativeDriver: true }),
+          Animated.timing(translateY, { toValue: 0, duration: 2000, useNativeDriver: true }),
+        ]),
+        Animated.sequence([
+          Animated.timing(scale, { toValue: 1.05, duration: 2000, useNativeDriver: true }),
+          Animated.timing(scale, { toValue: 1, duration: 2000, useNativeDriver: true }),
+        ])
       ])
     ).start();
-  }, [translateY]);
+  }, [translateY, scale]);
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.robotContainer, { transform: [{ translateY }] }]}>
+      <Animated.View style={[styles.robotContainer, { transform: [{ translateY }, { scale }] }]}>
         <Image 
           source={robotSource} 
           style={styles.robotImage} 
@@ -39,22 +38,23 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 300,
+    height: 350,
   },
   robotContainer: {
     alignItems: 'center',
   },
   robotImage: {
-    width: 200,
-    height: 200,
+    width: 280,
+    height: 280,
   },
+
   shadow: {
-    width: 100,
-    height: 10,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    width: 140,
+    height: 12,
+    backgroundColor: 'rgba(0,0,0,0.08)',
     borderRadius: 50,
-    marginTop: 20,
-    transform: [{ scaleX: 1.5 }],
+    marginTop: 10,
+    transform: [{ scaleX: 1.2 }],
   },
 });
 
