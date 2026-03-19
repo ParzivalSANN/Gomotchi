@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Modal, Dimensions } from 'react-native';
-import { BlurView } from 'expo-blur'; // Note: Ensure expo-blur is installed if possible, or use fallback
 import { LinearGradient } from 'expo-linear-gradient';
 
 const { width, height } = Dimensions.get('window');

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, TouchableOpacity, ScrollView, Alert, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useGomotchiStore } from '../src/store/useGomotchiStore';
 import FloatingRobot from '../src/components/FloatingRobot';
@@ -9,10 +9,25 @@ import MiniGame from '../src/components/MiniGame';
 
 const { width } = Dimensions.get('window');
 
-const ROOMS: Record<string, { colors: [string, string, string]; title: string; icon: string }> = {
-  living: { colors: ['#0F172A', '#1E293B', '#0F172A'], title: 'SALON', icon: '🏠' },
-  bedroom: { colors: ['#1E1B4B', '#312E81', '#1E1B4B'], title: 'YATAK ODASI', icon: '😴' },
-  bathroom: { colors: ['#065F46', '#064E3B', '#065F46'], title: 'BANYO', icon: '🧼' },
+const ROOMS: Record<string, { image: any; title: string; icon: string; overlay: string }> = {
+  living: { 
+    image: require('../src/assets/living_room.png'), 
+    title: 'SALON', 
+    icon: '🏠',
+    overlay: 'rgba(15, 23, 42, 0.4)'
+  },
+  bedroom: { 
+    image: require('../src/assets/bedroom.png'), 
+    title: 'YATAK ODASI', 
+    icon: '😴',
+    overlay: 'rgba(30, 27, 75, 0.4)'
+  },
+  bathroom: { 
+    image: require('../src/assets/bathroom.png'), 
+    title: 'BANYO', 
+    icon: '🧼',
+    overlay: 'rgba(6, 78, 59, 0.4)'
+  },
 };
 
 export default function Dashboard() {
@@ -27,14 +42,16 @@ export default function Dashboard() {
     Alert.alert("OYUN BİTTİ!", `${earnedGold} 💰 kazandın!`);
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
-      <LinearGradient colors={roomConfig.colors} style={styles.background}>
+      <ImageBackground source={roomConfig.image} style={styles.background} resizeMode="cover">
+        {/* Glassmorphism Overlay */}
+        <View style={[styles.overlay, { backgroundColor: roomConfig.overlay }]} />
+        
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
           {/* Header */}
           <View style={styles.header}>
-            <View>
+            <View style={styles.glassHeader}>
               <Text style={styles.unitName}>{unitName}</Text>
               <View style={styles.roomStatus}>
                 <Text style={styles.roomText}>{roomConfig.icon} {roomConfig.title}</Text>
@@ -47,7 +64,10 @@ export default function Dashboard() {
 
           {/* Level Info */}
           <View style={styles.levelInfo}>
-            <Text style={styles.levelLabel}>SEVİYE {level}</Text>
+            <View style={styles.levelHeader}>
+              <Text style={styles.levelLabel}>SEVİYE {level}</Text>
+              <Text style={styles.xpValue}>{experience}/{maxExperience} XP</Text>
+            </View>
             <View style={styles.xpTrack}>
               <View style={[styles.xpFill, { width: `${xpPercentage}%` }]} />
             </View>
@@ -94,8 +114,12 @@ export default function Dashboard() {
             <StatPanel title="HİJYEN" value={stats.hygiene} color="#00E5FF" icon="🧼" />
           </View>
 
-          {/* Market (Only in Living/Kitchen area style) */}
-          {currentRoom === 'living' && <InventoryList />}
+          {/* Market (Only in Living) */}
+          {currentRoom === 'living' && (
+            <View style={styles.marketSection}>
+              <InventoryList />
+            </View>
+          )}
         </ScrollView>
 
         {/* Bottom Navigator */}
@@ -128,51 +152,112 @@ export default function Dashboard() {
           onClose={() => setGameVisible(false)} 
           onFinish={handleFinishGame} 
         />
-      </LinearGradient>
+      </ImageBackground>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0F172A' },
+  container: { flex: 1, backgroundColor: '#000' },
   background: { flex: 1 },
-  scrollContent: { padding: 20, paddingBottom: 100 },
-  header: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 },
-  unitName: { color: '#fff', fontSize: 20, fontWeight: '900' },
-  roomStatus: { marginTop: 4 },
-  roomText: { color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 'bold' },
-  goldContainer: { backgroundColor: 'rgba(255,215,0,0.1)', padding: 10, borderRadius: 20, borderWidth: 1, borderColor: 'rgba(255,215,0,0.4)' },
-  goldText: { color: '#FFD700', fontWeight: 'bold' },
-  levelInfo: { marginBottom: 20 },
-  levelLabel: { color: '#3B82F6', fontSize: 10, fontWeight: 'bold', marginBottom: 5 },
-  xpTrack: { height: 4, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 2 },
-  xpFill: { height: '100%', backgroundColor: '#3B82F6', borderRadius: 2 },
-  heroContainer: { height: 280, justifyContent: 'center' },
-  mainActionBar: { marginBottom: 25 },
-  bigButton: { height: 60, borderRadius: 15, overflow: 'hidden' },
-  btnGradient: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 },
-  btnIcon: { fontSize: 24 },
-  btnText: { color: '#fff', fontWeight: 'bold', letterSpacing: 1 },
-  statsGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginBottom: 20 },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  scrollContent: { padding: 20, paddingBottom: 120 },
+  header: { 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    marginBottom: 25,
+    alignItems: 'center'
+  },
+  glassHeader: {
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    padding: 10,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+  },
+  unitName: { color: '#fff', fontSize: 18, fontWeight: '900', letterSpacing: 1 },
+  roomStatus: { marginTop: 2 },
+  roomText: { color: 'rgba(255,255,255,0.6)', fontSize: 10, fontWeight: 'bold', letterSpacing: 1 },
+  goldContainer: { 
+    backgroundColor: 'rgba(0,0,0,0.6)', 
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 20, 
+    borderWidth: 1, 
+    borderColor: '#FFD700',
+    shadowColor: '#FFD700',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+  },
+  goldText: { color: '#FFD700', fontWeight: 'bold', fontSize: 16 },
+  levelInfo: { 
+    marginBottom: 25,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    padding: 12,
+    borderRadius: 12,
+  },
+  levelHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  levelLabel: { color: '#3B82F6', fontSize: 12, fontWeight: 'bold' },
+  xpValue: { color: 'rgba(255,255,255,0.5)', fontSize: 10, fontWeight: 'bold' },
+  xpTrack: { height: 6, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 3, overflow: 'hidden' },
+  xpFill: { height: '100%', backgroundColor: '#3B82F6', borderRadius: 3 },
+  heroContainer: { height: 300, justifyContent: 'center', alignItems: 'center' },
+  mainActionBar: { marginBottom: 30 },
+  bigButton: { 
+    height: 70, 
+    borderRadius: 20, 
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 10,
+  },
+  btnGradient: { flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12 },
+  btnIcon: { fontSize: 28 },
+  btnText: { color: '#fff', fontWeight: '900', letterSpacing: 2, fontSize: 16 },
+  statsGrid: { 
+    flexDirection: 'row', 
+    flexWrap: 'wrap', 
+    justifyContent: 'space-between', 
+    marginBottom: 25,
+    padding: 5,
+  },
+  marketSection: {
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    borderRadius: 20,
+    paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.05)',
+  },
   navbar: { 
     position: 'absolute', 
     bottom: 0, 
     left: 0, 
     right: 0, 
-    height: 80, 
-    backgroundColor: 'rgba(15, 23, 42, 0.95)', 
+    height: 90, 
+    backgroundColor: 'rgba(0, 0, 0, 0.85)', 
     flexDirection: 'row', 
     justifyContent: 'space-around', 
     alignItems: 'center',
     borderTopWidth: 1,
     borderTopColor: 'rgba(255,255,255,0.1)',
-    paddingBottom: 20,
+    paddingBottom: 25,
   },
-  navItem: { alignItems: 'center', opacity: 0.4 },
+  navItem: { alignItems: 'center', opacity: 0.3 },
   navActive: { opacity: 1 },
-  navIcon: { fontSize: 20, marginBottom: 4 },
-  navText: { color: '#fff', fontSize: 10, fontWeight: 'bold' },
+  navIcon: { fontSize: 24, marginBottom: 4 },
+  navText: { color: '#fff', fontSize: 10, fontWeight: 'bold', letterSpacing: 1 },
 });
+
 
 
 
