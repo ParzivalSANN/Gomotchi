@@ -18,7 +18,7 @@ Gomotchi v3.3, görsel sadelikle teknik derinliği birleştiren 5 ana modül üz
 ### 2. ⏳ Gelişmiş Yaşam Döngüsü & State Machine
 *   **Unix Epoch Real-time Decay:** Evcil hayvanınızın ihtiyaçları (Açlık, Mutluluk, Enerji, Hijyen) siz uygulamada olmasanız bile gerçek zamanlı olarak azalır.
 *   **Gelişim Evreleri (Life Stages):** 
-    - **Baby** (Seviye 1-3)
+    - **Bebek** (Seviye 1-3)
     - **Toddler** (Seviye 4-9)
     - **Kid** (Seviye 10-20)
     - **Student** (Seviye 21+)

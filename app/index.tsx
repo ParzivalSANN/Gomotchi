@@ -12,6 +12,7 @@ import WhackAMouse from '../src/components/games/WhackAMouse';
 import DailyReward from '../src/components/DailyReward';
 import GameSelectorModal from '../src/components/GameSelectorModal';
 import OnboardingModal from '../src/components/OnboardingModal';
+import SpongeBath from '../src/components/games/SpongeBath';
 
 import SplashScreen from '../src/components/SplashScreen';
 import SettingsModal from '../src/components/SettingsModal';
@@ -51,7 +52,8 @@ const ROOMS: Record<string, { image: any; title: string; icon: string; overlay: 
 export default function Dashboard() {
   const { 
     unitName, level, lifeStage, experience, maxExperience, gold, diamonds, 
-    stats, currentRoom, setRoom, addGold, wash, sleep, calculateDecay, onboardingComplete 
+    stats, currentRoom, setRoom, addGold, wash, sleep, calculateDecay, onboardingComplete,
+    day, lastWashDay 
   } = useGomotchiStore();
   const [showSplash, setShowSplash] = useState(true);
   const [isSettingsVisible, setSettingsVisible] = useState(false);
@@ -91,6 +93,7 @@ export default function Dashboard() {
   const [mouseVisible, setMouseVisible] = useState(false);
   const [hopVisible, setHopVisible] = useState(false);
   const [brickVisible, setBrickVisible] = useState(false);
+  const [bathVisible, setBathVisible] = useState(false);
 
   const [dailyVisible, setDailyVisible] = useState(false);
   const [selectorVisible, setSelectorVisible] = useState(false);
@@ -110,6 +113,33 @@ export default function Dashboard() {
     if (gameType === 'mouse') setMouseVisible(true);
     if (gameType === 'hop') setHopVisible(true);
     if (gameType === 'brick') setBrickVisible(true);
+  };
+
+  const handleWashPress = () => {
+    if (lastWashDay >= day) {
+      Alert.alert("TEMİZ ROBOT!", "Bugün zaten yıkandın! Yarın (uyuduktan sonra) tekrar gelebilirsin. ✨");
+      return;
+    }
+    setBathVisible(true);
+  };
+
+  const handleSleepPress = () => {
+    Alert.alert(
+      "İYİ UYKULAR", 
+      "Uyuduğunda yeni bir güne uyanacaksın! Enerjin dolacak. Hazır mısın?",
+      [
+        { text: "VAZGEÇ", style: "cancel" },
+        { text: "UYU 😴", onPress: () => {
+          sleep();
+          Alert.alert("GÜNAYDIN!", `${day + 1}. GÜN BAŞLADI! 🌅`);
+        }}
+      ]
+    );
+  };
+
+  const handleFinishBath = () => {
+    wash();
+    setBathVisible(false);
   };
 
   if (showSplash) {
@@ -134,8 +164,13 @@ export default function Dashboard() {
               </TouchableOpacity>
               <View style={styles.unitInfo}>
                 <Text style={styles.unitName}>{unitName || "YENİ ROBOT"}</Text>
-                <View style={[ClayStyles.claySmallTag, { paddingVertical: 2 }]}>
-                  <Text style={styles.lifeStageText}>{lifeStage.toUpperCase()}</Text>
+                <View style={{flexDirection:'row', alignItems:'center'}}>
+                   <View style={[ClayStyles.claySmallTag, { paddingVertical: 2, marginRight: 5 }]}>
+                    <Text style={styles.lifeStageText}>{lifeStage.toUpperCase()}</Text>
+                  </View>
+                  <View style={[ClayStyles.claySmallTag, { paddingVertical: 2, backgroundColor: '#E2E8F0' }]}>
+                    <Text style={[styles.lifeStageText, {color: '#64748B'}]}>GÜN {day}</Text>
+                  </View>
                 </View>
               </View>
               <View style={styles.hudRight}>
@@ -207,13 +242,13 @@ export default function Dashboard() {
             )}
             {/* Same as before for other rooms */}
             {currentRoom === 'bedroom' && (
-              <TouchableOpacity style={styles.clayBigButton} onPress={sleep}>
+              <TouchableOpacity style={styles.clayBigButton} onPress={handleSleepPress}>
                 <Text style={styles.btnIcon}>😴</Text>
                 <Text style={[styles.btnText, { color: '#fff' }]}>UYU</Text>
               </TouchableOpacity>
             )}
             {currentRoom === 'bathroom' && (
-              <TouchableOpacity style={styles.clayBigButton} onPress={wash}>
+              <TouchableOpacity style={styles.clayBigButton} onPress={handleWashPress}>
                 <Text style={styles.btnIcon}>🧼</Text>
                 <Text style={[styles.btnText, { color: '#fff' }]}>YIKAN</Text>
               </TouchableOpacity>
@@ -235,6 +270,9 @@ export default function Dashboard() {
               <InventoryList />
             </View>
           )}
+
+          {/* Spacer for Navbar */}
+          <View style={{ height: 120 }} />
         </ScrollView>
 
         {/* Bottom Navigator */}
@@ -298,8 +336,14 @@ export default function Dashboard() {
           onClose={() => setBrickVisible(false)} 
           onFinish={handleFinishGame}
         />
+        <SpongeBath 
+          visible={bathVisible} 
+          onClose={() => setBathVisible(false)} 
+          onFinish={handleFinishBath} 
+        />
       </ImageBackground>
     </SafeAreaView>
+
   );
 }
 

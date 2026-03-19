@@ -12,12 +12,14 @@ export const useGomotchiStore = create((set, get) => ({
   unitName: null,
   age: 0,
   level: 1,
-  lifeStage: 'Baby', 
+  lifeStage: 'Bebek',
   experience: 0,
   maxExperience: 100,
   gold: 500,
   diamonds: 10,
-  currentRoom: 'living', 
+  day: 1,
+  lastWashDay: 0,
+  currentRoom: 'living',
   lastUpdate: Date.now(),
   onboardingComplete: false,
   settings: {
@@ -38,7 +40,7 @@ export const useGomotchiStore = create((set, get) => ({
   calculateDecay: () => {
     const now = Date.now();
     const elapsedHours = (now - get().lastUpdate) / (1000 * 60 * 60);
-    
+
     if (elapsedHours <= 0) return;
 
     set((state) => {
@@ -70,10 +72,12 @@ export const useGomotchiStore = create((set, get) => ({
   addDiamonds: (amount) => set((state) => ({ diamonds: state.diamonds + amount })),
 
   wash: () => set((state) => {
+    if (state.lastWashDay >= state.day) return state; // Already washed today
     const newStats = { ...state.stats, hygiene: 100 };
     return {
       stats: newStats,
-      experience: state.experience + 5,
+      lastWashDay: state.day,
+      experience: state.experience + 15, // Multiplied XP for mini-game effort
     };
   }),
 
@@ -83,7 +87,7 @@ export const useGomotchiStore = create((set, get) => ({
     const newHunger = Math.min(100, state.stats.hunger + foodItem.hungerValue);
     const newHapp = Math.min(100, state.stats.happiness + (foodItem.happValue || 0));
     let newXp = state.experience + 10;
-    
+
     let newLevel = state.level;
     let newMaxXp = state.maxExperience;
     let newLifeStage = state.lifeStage;
@@ -92,7 +96,7 @@ export const useGomotchiStore = create((set, get) => ({
       newLevel++;
       newXp = newXp - newMaxXp;
       newMaxXp = Math.floor(newMaxXp * 1.5);
-      
+
       // Update life stage based on level
       if (newLevel >= 21) newLifeStage = 'Student';
       else if (newLevel >= 10) newLifeStage = 'Kid';
@@ -110,7 +114,8 @@ export const useGomotchiStore = create((set, get) => ({
   }),
 
   sleep: () => set((state) => ({
-    stats: { ...state.stats, energy: 100, hunger: Math.max(0, state.stats.hunger - 15) },
+    day: state.day + 1,
+    stats: { ...state.stats, energy: 100, hunger: Math.max(0, state.stats.hunger - 20) },
   })),
 
   gainXP: (amount) => set((state) => {
@@ -123,7 +128,7 @@ export const useGomotchiStore = create((set, get) => ({
       newLevel++;
       newXp = newXp - newMaxXp;
       newMaxXp = Math.floor(newMaxXp * 1.5);
-      
+
       if (newLevel >= 21) newLifeStage = 'Student';
       else if (newLevel >= 10) newLifeStage = 'Kid';
       else if (newLevel >= 4) newLifeStage = 'Toddler';
@@ -137,12 +142,15 @@ export const useGomotchiStore = create((set, get) => ({
     };
   }),
 
-  completeOnboarding: (name, age) => set({ 
-    unitName: name, 
-    age: parseInt(age), 
+  completeOnboarding: (name, age) => set({
+    unitName: name,
+    age: parseInt(age),
     onboardingComplete: true,
-    lastUpdate: Date.now() 
+    day: 1,
+    lastWashDay: 0,
+    lastUpdate: Date.now()
   }),
+
 
   updateUserData: (data) => set((state) => ({ ...state, ...data })),
 

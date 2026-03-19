@@ -33,8 +33,10 @@ const SplashScreen = ({ onFinish }) => {
       />
 
       <Animated.View style={[styles.content, { opacity: fadeAnim }]}>
-        <Text style={styles.title}>GOMOTCHI</Text>
-        <Text style={styles.subtitle}>ANTIGRAVITY EDITION</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>GOMOTCHI</Text>
+          <Text style={styles.subtitle}>ANTIGRAVITY EDITION</Text>
+        </View>
         
         <View style={styles.loaderOuter}>
           <Animated.View style={[styles.loaderInner, { width: fadeAnim.interpolate({inputRange: [0, 1], outputRange: ['0%', '100%']}) }]} />
@@ -53,45 +55,53 @@ const styles = StyleSheet.create({
   },
   content: { 
     position: 'absolute',
-    bottom: 80,
+    bottom: 60, // Lowered
     alignItems: 'center',
     width: '100%',
+  },
+  textContainer: {
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    padding: 15,
+    borderRadius: 20,
+    alignItems: 'center',
+    marginBottom: 10,
   },
   title: { 
     fontSize: 42, 
     fontWeight: '900', 
     color: '#fff', 
-    letterSpacing: 6,
-    textShadowColor: 'rgba(0,0,0,0.2)',
-    textShadowOffset: { width: 2, height: 4 },
+    letterSpacing: 4, // Tighter
+    textShadowColor: 'rgba(0,0,0,0.3)',
+    textShadowOffset: { width: 0, height: 4 },
     textShadowRadius: 10,
   },
   subtitle: { 
-    fontSize: 14, 
+    fontSize: 12, 
     fontWeight: 'bold', 
-    color: 'rgba(255,255,255,0.8)', 
-    letterSpacing: 3, 
-    marginTop: 5,
-    textShadowColor: 'rgba(0,0,0,0.1)',
-    textShadowOffset: { width: 1, height: 2 },
+    color: 'rgba(255,255,255,0.9)', 
+    letterSpacing: 2, 
+    marginTop: 2,
+    textShadowColor: 'rgba(0,0,0,0.2)',
+    textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 5,
   },
   loaderOuter: { 
-    width: '60%', 
-    height: 8, 
-    backgroundColor: 'rgba(255,255,255,0.3)', 
-    borderRadius: 4, 
-    marginTop: 30, 
+    width: '50%', 
+    height: 6, 
+    backgroundColor: 'rgba(255,255,255,0.2)', 
+    borderRadius: 3, 
+    marginTop: 20, 
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)',
+    borderColor: 'rgba(255,255,255,0.1)',
   },
   loaderInner: { 
     height: '100%', 
     backgroundColor: '#fff', 
-    borderRadius: 4,
+    borderRadius: 3,
   },
 });
+
 
 
 export default SplashScreen;
